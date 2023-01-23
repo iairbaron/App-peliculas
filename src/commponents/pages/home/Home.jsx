@@ -1,40 +1,35 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import CardMovie from "../../common/cardMovie/CardMovie";
+import { Button } from "@mui/material";
+import confetti from "canvas-confetti";
 import styles from "./Home.module.css";
 import Header from "../../common/header/header";
-import confetti from "canvas-confetti";
-import { Button } from "@mui/material";
 import CreateMovieModal from "../../common/createMovieModal/CreateMovieModal";
+import CardMovie from "../../common/cardMovie/CardMovie";
+import { fetchMovies, setLike, deleteMovieById } from "../../../api";
 
 const Home = () => {
+  const [movies, setMovies] = useState([]);
+  const [showFavorites, setShowFavorites] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [moviesChanged, setMoviesChanges] = useState(false)
 
-    const [movies, setMovies] = useState([]);
-    const[dispatchLike,setDispatchLike]=useState([false]);
-    const[favorite,setFavorite]=useState([false]);
-    const [open, setOpen] = useState(false);
-    const [isMovieCreated,setIsMovieCreated]=useState(false)
-    const [isDeleted,setIsDeleted]=useState(false)
-  
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-
+  const fetchMoviesFromAPI = async () => {
+    const movies = await fetchMovies();
+    setMovies(movies);
+    setMoviesChanges(false);
+  }
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/movies")
-      .then((response) => setMovies(response.data))
-      .catch((err) => console.log(err));
-      setDispatchLike(false);
-      setIsMovieCreated(false)
-      setIsDeleted(false)
-  }, [dispatchLike,isMovieCreated,isDeleted]);
-  console.log("movies", movies);
+    fetchMoviesFromAPI();
+  }, [moviesChanged]);
 
   const handleLike = (movie) => {
-    if(!movie.isLiked)
-    {confetti({
+    const newLikeValue = !movie.isLiked;
+    if (newLikeValue) {
+      confetti({
         zIndex: 999,
         particleCount: 130,
         spread: 160,
@@ -42,52 +37,39 @@ const Home = () => {
         origin: {
           x: 0.5,
           y: 0,
-        }})}
-    
-    axios
-      .patch(`http://localhost:5000/movies/${movie.id}`, {
-        isLiked: !movie.isLiked,
+        }
       })
-      .then((res) => setDispatchLike(true))
-      .catch((err) => console.log(err));
-  };
-  const moviesFiltered = movies.filter(movie=>movie.isLiked)
+    }
 
-  const deleteMovieById=(id)=>{
-    axios
-   .delete(`http://localhost:5000/movies/${id}`)
-   .then(res=>setIsDeleted(true)) 
+    setLike(movie.id, newLikeValue);
+    setMoviesChanges(true);
+  };
+
+  const deleteMovie = (id) => {
+    deleteMovieById(id);
+    setMoviesChanges(true);
   }
+
+  const moviesToDisplay = showFavorites ? movies.filter(movie => movie.isLiked) : movies;
+
   return (
     <>
-    <Header setFavorite={setFavorite} />
-    <Button onClick={handleOpen}>agregar pelicula</Button>
-    <CreateMovieModal  open={open} handleClose={handleClose} setIsMovieCreated={setIsMovieCreated} />
+      <Header setShowFavorites={setShowFavorites} />
+      <Button onClick={handleOpen}>agregar pelicula</Button>
+      <CreateMovieModal open={open} handleClose={handleClose} setIsMovieCreated={setMoviesChanges} />
       <div className={styles.containerCards}>
         {
-            <div className={styles.containerCards}>
-        {!favorite
-          ? movies.map((movie) => {
-              return (
-                <CardMovie
-                  movie={movie}
-                  key={movie.id}
-                  handleLike={handleLike}
-                  deleteMovieById={deleteMovieById} 
-                />
-              );
-            })
-          : moviesFiltered.map((movie) => {
-              return (
-                <CardMovie
-                  movie={movie}
-                  key={movie.id}
-                  handleLike={handleLike}      
-                  deleteMovieById={deleteMovieById} 
-                />
-              );
-            })}
-      </div>
+          <div className={styles.containerCards}>
+            {moviesToDisplay.map((movie) => (
+              <CardMovie
+                key={movie.id}
+                movie={movie}
+                handleLike={handleLike}
+                deleteMovieById={deleteMovie}
+              />
+            )
+            )}
+          </div>
 
         }
       </div>
