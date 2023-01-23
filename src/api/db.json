@@ -23,6 +23,14 @@
       "img": "https://www.cronista.com/files/image/488/488121/636e67d2c55ba.jpg",
       "createdAt": "29 de noviembre de 2001",
       "isLiked": true
+    },
+    {
+      "id": 4,
+      "name": "Harry Potter 2",
+      "description": "El día de su cumpleaños, Harry Potter descubre que es hijo de dos conocidos hechiceros, de los que ha heredado poderes mágicos. Debe asistir a una famosa escuela de magia y hechicería...",
+      "img": "https://www.cronista.com/files/image/488/488121/636e67d2c55ba.jpg",
+      "createdAt": "29 de noviembre de 2001",
+      "isLiked": true
     }
   ]
 }
