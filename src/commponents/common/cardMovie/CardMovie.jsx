@@ -6,12 +6,12 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import  FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
-const CardMovie = ({ movie,handleLike,deleteMovieById }) => {
+const CardMovie = ({ movie, handleLike, deleteMovieById }) => {
   return (
-    <Card sx={{ width:300, height:500}}>
+    <Card sx={{ width: 300, height: 500 }}>
       <CardHeader title={movie.name} subheader={movie.createdAt} />
       <CardMedia
         component="img"
@@ -19,18 +19,19 @@ const CardMovie = ({ movie,handleLike,deleteMovieById }) => {
         image={movie.img}
         alt="Paella dish"
       />
-      <CardContent sx={{ height:150}}>
+      <CardContent sx={{ height: 150 }}>
         <Typography variant="body2" color="text.secondary">
           {movie.description}
         </Typography>
       </CardContent>
-      <CardActions sx={{display:"flex",
-      justifyContent:"space-around"
-    }}>
+      <CardActions sx={{
+        display: "flex",
+        justifyContent: "space-around"
+      }}>
         <IconButton aria-label="add to favorites">
-        <FavoriteIcon color={movie.isLiked ? "error" :"black" } onClick={()=>handleLike(movie)} />
+          <FavoriteIcon color={movie.isLiked ? "error" : "black"} onClick={() => handleLike(movie)} />
         </IconButton>
-        <IconButton type="button" onClick={()=>deleteMovieById(movie.id)}   >
+        <IconButton type="button" onClick={() => deleteMovieById(movie.id)}>
           <DeleteOutlineOutlinedIcon color="error" />
         </IconButton>
       </CardActions>
