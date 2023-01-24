@@ -2,16 +2,9 @@ import React from 'react'
 import { Button, Typography } from '@mui/material'
 
 const Header = ({ setShowFavorites }) => (
-  <div style={{
-    backgroundColor: "black",
-    display: "flex",
-    justifyContent: "space-between",
-    width: "100%",
-    padding: "10px",
-    alignItems: "center"
-  }}>
+  <div class="bg-black flex justify-between w-full p-4 items-center">
     <Typography variant="h4" color="primary">Peliculas</Typography>
-    <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
+    <div class="flex justify-center gap-4">
       <Button variant="contained" color="primary" onClick={() => { setShowFavorites(false) }}>Todos</Button>
       <Button variant="contained" color="primary" onClick={() => { setShowFavorites(true) }}>Favoritos</Button>
     </div>
