@@ -11,7 +11,7 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 
 const CardMovie = ({ movie, handleLike, deleteMovieById }) => {
   return (
-    <Card sx={{ width: 300, height: 500 }}>
+    <Card  sx={{ width: 300, height: 500 }}>
       <CardHeader title={movie.name} subheader={movie.createdAt} />
       <CardMedia
         component="img"

@@ -49,16 +49,8 @@ const CreateMovieModal = ({ open, handleClose, setIsMovieCreated }) => {
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
       >
-        <Box sx={{ ...style, width: 400 }}>
-          <form
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "400px",
-              gap: "10px"
-            }}
+        <Box  sx={{ ...style, width: 400 }}>
+          <form class="flex flex-col items-center justify-center h-400 gap-4"
             onSubmit={handleSubmit}
           >
             <Typography variant="h6" color="primary">Agregar Pelicula </Typography>
